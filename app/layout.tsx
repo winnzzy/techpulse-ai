@@ -37,10 +37,32 @@ const nav = [
   ["About", "/about"],
 ];
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  name: "TechPulse AI",
+  url: siteUrl,
+  logo: `${siteUrl}/icon.svg`,
+  description: "Independent, practical coverage of artificial intelligence, software and emerging technology.",
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  url: siteUrl,
+  name: "TechPulse AI",
+  description: "AI, technology and the future explained clearly.",
+  publisher: { "@id": `${siteUrl}/#organization` },
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <header className="nav">
           <div className="container nav-inner">
             <Link href="/" className="brand" aria-label="TechPulse AI home">TechPulse <span>AI</span></Link>
