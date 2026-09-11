@@ -94,6 +94,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <div className="footer-links">
                 <Link href="/about">About</Link>
                 <Link href="/authors/techpulse-ai-editorial">Editorial team</Link>
+                <Link href="/editorial-standards">Editorial standards</Link>
                 <Link href="/contact">Contact</Link>
                 <Link href="/privacy">Privacy</Link>
                 <Link href="/terms">Terms</Link>
