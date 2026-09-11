@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/posts";
+import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://techpulse-ai.example.com";
+  const baseUrl = siteUrl;
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, changeFrequency: "daily", priority: 1 },
     { url: `${baseUrl}/category/ai-tools`, changeFrequency: "weekly", priority: 0.8 },
