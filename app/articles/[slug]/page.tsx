@@ -30,11 +30,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       modifiedTime: post.date,
       authors: [post.author],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
-    },
   };
 }
 
@@ -82,17 +77,31 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <article className="article-shell">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-        <nav className="meta" aria-label="Breadcrumb">
-          <Link href="/">Home</Link> · <Link href={hubHref}>{post.category}</Link>
+        <nav className="meta article-breadcrumb" aria-label="Breadcrumb">
+          <Link href="/">Home</Link> <span>›</span> <Link href={hubHref}>{post.category}</Link>
         </nav>
         <div className="eyebrow">{post.category}</div>
         <h1>{post.title}</h1>
         <p className="lead">{post.excerpt}</p>
-        <div className="meta">
-          By <Link href="/authors/techpulse-ai-editorial">{post.author}</Link> · {post.readingTime} · {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        <div className="article-byline">
+          <div className="author-mini" aria-hidden="true">TP</div>
+          <div>
+            <div>By <Link href="/authors/techpulse-ai-editorial">{post.author}</Link></div>
+            <div className="meta">{post.readingTime} · Published {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</div>
+          </div>
         </div>
-        {post.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-        <p><strong>Editorial note:</strong> TechPulse AI aims to publish practical, original analysis under our <Link href="/editorial-standards">editorial standards</Link>. Product capabilities and pricing can change, so readers should verify time-sensitive details with official sources before making purchasing or business decisions.</p>
+        <div className="article-summary">
+          <strong>What you’ll learn</strong>
+          <p>{post.excerpt} This guide focuses on practical decisions, trade-offs, and the checks that matter before you act.</p>
+        </div>
+        <div className="article-body">
+          {post.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+        </div>
+        <aside className="editorial-note">
+          <strong>TechPulse AI editorial note</strong>
+          <p>We aim to publish practical, original analysis and clearly separate editorial judgment from commercial relationships. Product capabilities and pricing can change, so verify time-sensitive details with official sources before making purchasing or business decisions.</p>
+          <Link href="/editorial-standards">Read our editorial standards →</Link>
+        </aside>
       </article>
 
       <section className="section">
