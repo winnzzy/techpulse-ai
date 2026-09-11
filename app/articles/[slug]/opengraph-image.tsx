@@ -37,7 +37,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", width: "100%", fontSize: 23, color: "#b9c7d8" }}>
           <span>Practical, independent technology coverage</span>
-          <span>techpulse.ai</span>
+          <span>TechPulse AI</span>
         </div>
       </div>
     ),
