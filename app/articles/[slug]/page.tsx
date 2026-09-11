@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
+
   return {
     title: post.title,
     description: post.excerpt,
@@ -29,6 +30,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       publishedTime: post.date,
       modifiedTime: post.date,
       authors: [post.author],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
     },
   };
 }
@@ -87,7 +93,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="author-mini" aria-hidden="true">TP</div>
           <div>
             <div>By <Link href="/authors/techpulse-ai-editorial">{post.author}</Link></div>
-            <div className="meta">{post.readingTime} · Published {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</div>
+            <div className="meta">{post.readingTime} · Published {new Date(`${post.date}T00:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</div>
           </div>
         </div>
         <div className="article-summary">
@@ -104,7 +110,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         </aside>
       </article>
 
-      <section className="section">
+      <section className="section article-related">
         <div className="section-head">
           <div>
             <div className="eyebrow">Continue reading</div>
@@ -112,7 +118,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
           <Link href={hubHref}>Explore topic →</Link>
         </div>
-        <div className="grid">
+        <div className="related-grid">
           {related.map((item) => (
             <article className="card" key={item.slug}>
               <span className="badge">{item.category}</span>
