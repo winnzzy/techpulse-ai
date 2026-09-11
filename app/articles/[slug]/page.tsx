@@ -27,7 +27,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.title,
       description: post.excerpt,
       publishedTime: post.date,
+      modifiedTime: post.date,
       authors: [post.author],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
     },
   };
 }
@@ -49,12 +55,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
+    dateModified: post.date,
+    image: `${siteUrl}/articles/${post.slug}/opengraph-image`,
     author: {
       "@type": "Organization",
       name: post.author,
       url: `${siteUrl}/authors/techpulse-ai-editorial`,
     },
-    publisher: { "@type": "Organization", name: "TechPulse AI" },
+    publisher: { "@id": `${siteUrl}/#organization` },
+    isPartOf: { "@id": `${siteUrl}/#website` },
     mainEntityOfPage: `${siteUrl}/articles/${post.slug}`,
   };
 
@@ -83,7 +92,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           By <Link href="/authors/techpulse-ai-editorial">{post.author}</Link> · {post.readingTime} · {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
         </div>
         {post.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
-        <p><strong>Editorial note:</strong> TechPulse AI aims to publish practical, original analysis. Product capabilities and pricing can change, so readers should verify time-sensitive details with official sources before making purchasing or business decisions.</p>
+        <p><strong>Editorial note:</strong> TechPulse AI aims to publish practical, original analysis under our <Link href="/editorial-standards">editorial standards</Link>. Product capabilities and pricing can change, so readers should verify time-sensitive details with official sources before making purchasing or business decisions.</p>
       </article>
 
       <section className="section">
