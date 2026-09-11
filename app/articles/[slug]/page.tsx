@@ -4,6 +4,12 @@ import { notFound } from "next/navigation";
 import { getPost, posts } from "@/lib/posts";
 import { siteUrl } from "@/lib/site";
 
+const categoryHref: Record<string, string> = {
+  "AI Tools": "/category/ai-tools",
+  "AI Explained": "/category/ai-explained",
+  Guides: "/category/guides",
+};
+
 export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
@@ -31,8 +37,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const post = getPost(slug);
   if (!post) notFound();
 
-  const related = posts.filter((candidate) => candidate.slug !== post.slug).slice(0, 2);
-  const jsonLd = {
+  const related = posts
+    .filter((candidate) => candidate.slug !== post.slug)
+    .sort((a, b) => Number(b.category === post.category) - Number(a.category === post.category))
+    .slice(0, 3);
+  const hubHref = categoryHref[post.category] ?? "/search";
+
+  const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
@@ -47,10 +58,24 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     mainEntityOfPage: `${siteUrl}/articles/${post.slug}`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: post.category, item: `${siteUrl}${hubHref}` },
+      { "@type": "ListItem", position: 3, name: post.title, item: `${siteUrl}/articles/${post.slug}` },
+    ],
+  };
+
   return (
     <main className="article-wrap">
       <article className="article-shell">
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+        <nav className="meta" aria-label="Breadcrumb">
+          <Link href="/">Home</Link> · <Link href={hubHref}>{post.category}</Link>
+        </nav>
         <div className="eyebrow">{post.category}</div>
         <h1>{post.title}</h1>
         <p className="lead">{post.excerpt}</p>
@@ -65,8 +90,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="section-head">
           <div>
             <div className="eyebrow">Continue reading</div>
-            <h2>Related guides</h2>
+            <h2>More from {post.category}</h2>
           </div>
+          <Link href={hubHref}>Explore topic →</Link>
         </div>
         <div className="grid">
           {related.map((item) => (
