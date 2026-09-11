@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   creator: "TechPulse AI",
   publisher: "TechPulse AI",
   category: "technology",
+  alternates: { types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     type: "website",
     siteName: "TechPulse AI",
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Link href="/category/ai-explained">AI Explained</Link>
                 <Link href="/category/guides">Guides</Link>
                 <Link href="/search">Search</Link>
+                <a href="/feed.xml">RSS feed</a>
               </div>
             </div>
             <div>
