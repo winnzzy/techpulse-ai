@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://techpulse-ai.example.com"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "TechPulse AI | AI, Technology & the Future Explained",
     template: "%s | TechPulse AI",
