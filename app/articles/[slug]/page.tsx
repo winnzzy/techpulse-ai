@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost, posts } from "@/lib/posts";
+import { siteUrl } from "@/lib/site";
 
 export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
@@ -40,10 +41,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     author: {
       "@type": "Organization",
       name: post.author,
-      url: "https://techpulse-ai.example.com/authors/techpulse-ai-editorial",
+      url: `${siteUrl}/authors/techpulse-ai-editorial`,
     },
     publisher: { "@type": "Organization", name: "TechPulse AI" },
-    mainEntityOfPage: `https://techpulse-ai.example.com/articles/${post.slug}`,
+    mainEntityOfPage: `${siteUrl}/articles/${post.slug}`,
   };
 
   return (
