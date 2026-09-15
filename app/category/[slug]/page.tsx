@@ -4,76 +4,10 @@ import { notFound } from "next/navigation";
 import { posts } from "@/lib/posts";
 
 const categoryMap: Record<string, { name: string; description: string; match: string[] }> = {
-  "ai-tools": {
-    name: "AI Tools",
-    description: "Practical reviews, comparisons and buying guidance for AI software that can improve real workflows.",
-    match: ["AI Tools"],
-  },
-  "ai-explained": {
-    name: "AI Explained",
-    description: "Clear explanations of AI models, agents, infrastructure and the concepts behind fast-moving technology.",
-    match: ["AI Explained"],
-  },
-  guides: {
-    name: "Guides",
-    description: "Hands-on guidance for choosing, configuring and using technology more effectively.",
-    match: ["Guides"],
-  },
+  "ai-tools": { name: "AI Tools", description: "Practical reviews, comparisons and buying guidance for AI software that can improve real workflows.", match: ["AI Tools"] },
+  "ai-explained": { name: "AI Explained", description: "Clear explanations of AI models, agents, infrastructure and the concepts behind fast-moving technology.", match: ["AI Explained"] },
+  guides: { name: "Guides", description: "Complete step-by-step tutorials that take you from prerequisites and setup through execution, verification, troubleshooting and a working outcome.", match: ["Guides"] },
 };
-
-export function generateStaticParams() {
-  return Object.keys(categoryMap).map((slug) => ({ slug }));
-}
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  const category = categoryMap[slug];
-  if (!category) return {};
-  return {
-    title: category.name,
-    description: category.description,
-    alternates: { canonical: `/category/${slug}` },
-  };
-}
-
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const category = categoryMap[slug];
-  if (!category) notFound();
-
-  const categoryPosts = posts.filter((post) => category.match.includes(post.category));
-
-  return (
-    <main>
-      <section className="container hub-hero">
-        <div className="eyebrow">Topic hub</div>
-        <h1>{category.name}</h1>
-        <p className="lead">{category.description}</p>
-      </section>
-
-      <section className="container section">
-        <div className="grid">
-          {categoryPosts.map((post) => (
-            <article key={post.slug} className="card">
-              <span className="badge">{post.category}</span>
-              <h3><Link href={`/articles/${post.slug}`}>{post.title}</Link></h3>
-              <p>{post.excerpt}</p>
-              <div className="meta">{post.readingTime} · {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="container section">
-        <div className="newsletter">
-          <div>
-            <div className="eyebrow">Keep exploring</div>
-            <h2>Looking for something specific?</h2>
-            <p>Search across TechPulse AI’s guides, explainers and reviews.</p>
-          </div>
-          <Link className="button" href="/search">Search articles</Link>
-        </div>
-      </section>
-    </main>
-  );
-}
+export function generateStaticParams(){return Object.keys(categoryMap).map(slug=>({slug}));}
+export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const category=categoryMap[slug];if(!category)return{};return{title:category.name,description:category.description,alternates:{canonical:`/category/${slug}`}};}
+export default async function CategoryPage({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const category=categoryMap[slug];if(!category)notFound();const categoryPosts=posts.filter(post=>category.match.includes(post.category));return <main><section className="container hub-hero"><div className="eyebrow">Topic hub</div><h1>{category.name}</h1><p className="lead">{category.description}</p></section>{slug==="guides"?<section className="container"><div className="trust-strip"><div><div className="eyebrow">Guide standard</div><h2>Follow it. Verify it. Finish it.</h2></div><div className="trust-points"><p><strong>Start prepared.</strong><br/>Every tutorial identifies prerequisites and the outcome before step one.</p><p><strong>Know you are on track.</strong><br/>Important steps include expected results and the finished workflow includes verification.</p><p><strong>Recover when it fails.</strong><br/>Troubleshooting and relevant privacy or security notes are part of the guide, not an afterthought.</p></div></div></section>:null}<section className="container section"><div className="grid">{categoryPosts.map(post=><article key={post.slug} className="card"><span className="badge">{post.category}</span><h3><Link href={`/articles/${post.slug}`}>{post.title}</Link></h3><p>{post.excerpt}</p><div className="meta">{post.readingTime} · {new Date(`${post.date}T00:00:00Z`).toLocaleDateString("en-US",{year:"numeric",month:"short",day:"numeric",timeZone:"UTC"})}</div></article>)}</div></section><section className="container section"><div className="newsletter"><div><div className="eyebrow">Keep exploring</div><h2>Looking for something specific?</h2><p>Search across TechPulse AI’s guides, explainers and reviews.</p></div><Link className="button" href="/search">Search articles</Link></div></section></main>}
