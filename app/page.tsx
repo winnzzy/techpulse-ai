@@ -43,7 +43,7 @@ export default function HomePage() {
         <aside className="briefing-list">
           <div className="eyebrow">Editor’s briefing</div>
           <h2>Start with the fundamentals</h2>
-          {rest.slice(0,5).map((post, index) => (
+          {rest.slice(0,3).map((post, index) => (
             <article className="briefing-item" key={post.slug}>
               <span>0{index + 1}</span>
               <div>
@@ -53,6 +53,7 @@ export default function HomePage() {
               </div>
             </article>
           ))}
+          <Link className="feature-read-link" href="/search">Browse all articles →</Link>
         </aside>
       </section>
 
