@@ -9,6 +9,7 @@ Search / News / Social / Direct → Article or TechPulse Labs tool → Related g
 ## Phase 1 — Audience and intent infrastructure (current)
 
 - High-quality topical article clusters.
+- Complete step-by-step Guides.
 - TechPulse Labs: ROI Calculator, Local LLM Hardware Checker, AI Tool Finder, Token/API Cost Calculator, AI Stack Builder, Model Comparison Explorer.
 - Topic hubs, search, RSS, author/editorial standards, structured data and internal linking.
 - Advertise & Partner page with editorial firewall.
@@ -18,7 +19,8 @@ Search / News / Social / Direct → Article or TechPulse Labs tool → Related g
 
 Activate only after real provider/account IDs exist.
 
-- GA4 events: `tool_start`, `tool_complete`, `newsletter_signup`, `affiliate_click`, `comparison_cta`, `lead_submit`, `sponsor_click`, `product_cta`.
+- Canonical events: `tool_open`, `tool_complete`, `article_commercial_click`, `affiliate_click`, `sponsor_click`, `direct_ad_click`, `newsletter_cta_click`, `newsletter_signup`, `lead_cta_click`, `lead_submit`, `product_cta_click`.
+- CTA click events and successful conversion events remain separate.
 - Search Console + sitemap monitoring.
 - Newsletter provider and first-party signup forms.
 - Reusable disclosure components for affiliate and sponsored content.
@@ -37,7 +39,8 @@ Activate only after real provider/account IDs exist.
 ## Phase 4 — Advertising
 
 - Apply for AdSense only when the publication has sufficient original depth and launch-quality trust/contact infrastructure.
-- Reserve responsive ad placements to minimize layout shift.
+- Keep centralized ad inventory inactive until an approved provider and verified slot IDs exist.
+- Do not create unexplained blank ad areas before activation.
 - Start conservatively; measure revenue per session against engagement and performance.
 - Later evaluate higher-value programmatic/direct inventory when traffic supports it.
 
@@ -65,3 +68,4 @@ Activate only after real provider/account IDs exist.
 5. Track commercial performance without collecting unnecessary personal data.
 6. Do not activate tracking, advertising or newsletter integrations until their real configuration and privacy requirements are in place.
 7. Optimize revenue per trusted reader, not maximum ad density.
+8. Guides must deliver a reproducible working outcome rather than thin explanatory content.
