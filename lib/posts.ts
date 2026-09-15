@@ -9,6 +9,10 @@ export type PostCommercial = {
   primaryTool?: string;
   ctaLabel?: string;
 };
+export type Sponsorship = {
+  partnerId:string;
+  label?:string;
+};
 
 export type Post = {
   slug: string;
@@ -24,6 +28,7 @@ export type Post = {
   sources?: PostSource[];
   relatedSlugs?: string[];
   commercial?: PostCommercial;
+  sponsorship?: Sponsorship;
   content: string[];
 };
 
