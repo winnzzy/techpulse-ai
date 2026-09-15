@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Free AI & Technology Tools",
@@ -6,12 +7,12 @@ export const metadata: Metadata = {
 };
 
 const tools = [
-  ["AI Subscription ROI Calculator", "Estimate whether a paid AI plan can justify its cost from time saved and recurring usage.", "Planned"],
-  ["Local LLM Hardware Checker", "Match RAM, VRAM and hardware constraints to realistic local-model options.", "Planned"],
-  ["AI Tool Finder", "Turn a workflow and budget into a shortlist of tool categories and evaluation criteria.", "Planned"],
-  ["Token & API Cost Calculator", "Estimate model usage costs for common application and automation workloads.", "Planned"],
-  ["AI Stack Builder", "Map a business workflow to models, retrieval, automation and human-approval components.", "Planned"],
-  ["Model Comparison Explorer", "Compare models using task fit, deployment, context and other practical dimensions rather than one leaderboard score.", "Planned"],
+  ["AI Subscription ROI Calculator", "Estimate whether a paid AI plan can justify its cost from time saved and recurring usage.", "Live", "/tools/ai-subscription-roi"],
+  ["Local LLM Hardware Checker", "Match RAM, VRAM and hardware constraints to realistic local-model options.", "Next", ""],
+  ["AI Tool Finder", "Turn a workflow and budget into a shortlist of tool categories and evaluation criteria.", "Planned", ""],
+  ["Token & API Cost Calculator", "Estimate model usage costs for common application and automation workloads.", "Planned", ""],
+  ["AI Stack Builder", "Map a business workflow to models, retrieval, automation and human-approval components.", "Planned", ""],
+  ["Model Comparison Explorer", "Compare models using task fit, deployment, context and other practical dimensions rather than one leaderboard score.", "Planned", ""],
 ];
 
 export default function ToolsPage() {
@@ -20,12 +21,17 @@ export default function ToolsPage() {
       <section className="hub-hero">
         <div className="eyebrow">TechPulse Labs</div>
         <h1>Useful tools for making better technology decisions.</h1>
-        <p className="lead">We are building free interactive utilities that turn complicated AI decisions into practical answers. These tools will complement our independent guides and comparisons.</p>
+        <p className="lead">Free interactive utilities that turn complicated AI decisions into practical answers, backed by transparent assumptions and our independent guides.</p>
       </section>
       <section className="section">
         <div className="grid">
-          {tools.map(([title, copy, status]) => (
-            <article className="card" key={title}><span className="badge">{status}</span><h3>{title}</h3><p>{copy}</p><div className="meta">TechPulse Labs</div></article>
+          {tools.map(([title, copy, status, href]) => (
+            <article className="card" key={title}>
+              <span className="badge">{status}</span>
+              <h3>{href ? <Link href={href}>{title}</Link> : title}</h3>
+              <p>{copy}</p>
+              <div className="meta">{href ? <Link href={href}>Open free tool →</Link> : "TechPulse Labs"}</div>
+            </article>
           ))}
         </div>
       </section>
