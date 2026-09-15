@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
+import "./decision-framework.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
