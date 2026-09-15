@@ -1,19 +1,16 @@
-type AdSlotProps={
-  placement:string;
-  format?:"leaderboard"|"rectangle"|"in-article";
-  reserveSpace?:boolean;
-};
+import {adInventory,type AdPlacementId} from "@/lib/ad-inventory";
+
+type AdSlotProps={placement:AdPlacementId;className?:string};
 
 /**
- * Advertising inventory primitive. It intentionally renders no ad creative until
- * a real approved ad provider and consent configuration are connected.
+ * Advertising inventory primitive. Placements are centrally disabled until a
+ * real approved provider, consent flow and verified slot IDs are configured.
  */
-export function AdSlot({placement,format="in-article",reserveSpace=false}:AdSlotProps){
-  const adsEnabled=process.env.NEXT_PUBLIC_ADS_ENABLED==="true";
-  if(!adsEnabled&&!reserveSpace)return null;
-  if(!adsEnabled)return <div className={`ad-slot ad-slot-${format}`} data-ad-placement={placement} aria-hidden="true"/>;
+export function AdSlot({placement,className}:AdSlotProps){
+  const slot=adInventory[placement];
+  if(!slot.enabled)return null;
 
-  // Keep production safe: enabling the flag alone must never fabricate an ad.
-  // Provider-specific rendering is added only after account approval/configuration.
-  return null;
+  // Production-safe guard: inventory activation alone never fabricates an ad.
+  // A verified provider adapter will render creative here after configuration.
+  return <aside className={className} data-ad-placement={placement} aria-label="Advertisement" style={slot.minHeight?{minHeight:slot.minHeight}:undefined}/>;
 }
