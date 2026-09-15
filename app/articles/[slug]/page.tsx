@@ -10,6 +10,14 @@ const categoryHref: Record<string, string> = {
   Guides: "/category/guides",
 };
 
+const formatDate = (date: string) =>
+  new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+
 export function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
@@ -18,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
+  const modified = post.updated ?? post.date;
 
   return {
     title: post.title,
@@ -28,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: post.title,
       description: post.excerpt,
       publishedTime: post.date,
-      modifiedTime: post.date,
+      modifiedTime: modified,
       authors: [post.author],
     },
     twitter: {
@@ -44,11 +53,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const post = getPost(slug);
   if (!post) notFound();
 
-  const related = posts
-    .filter((candidate) => candidate.slug !== post.slug)
+  const curatedRelated = (post.relatedSlugs ?? [])
+    .map((relatedSlug) => getPost(relatedSlug))
+    .filter((candidate): candidate is NonNullable<typeof candidate> => Boolean(candidate));
+  const fallbackRelated = posts.filter(
+    (candidate) => candidate.slug !== post.slug && !curatedRelated.some((item) => item.slug === candidate.slug),
+  );
+  const related = [...curatedRelated, ...fallbackRelated]
     .sort((a, b) => Number(b.category === post.category) - Number(a.category === post.category))
     .slice(0, 3);
   const hubHref = categoryHref[post.category] ?? "/search";
+  const modified = post.updated ?? post.date;
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -56,7 +71,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: modified,
     image: `${siteUrl}/articles/${post.slug}/opengraph-image`,
     author: {
       "@type": "Organization",
@@ -93,16 +108,33 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="author-mini" aria-hidden="true">TP</div>
           <div>
             <div>By <Link href="/authors/techpulse-ai-editorial">{post.author}</Link></div>
-            <div className="meta">{post.readingTime} · Published {new Date(`${post.date}T00:00:00Z`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })}</div>
+            <div className="meta">
+              {post.readingTime} · Published {formatDate(post.date)}
+              {post.updated && post.updated !== post.date ? ` · Updated ${formatDate(post.updated)}` : ""}
+            </div>
           </div>
         </div>
         <div className="article-summary">
           <strong>What you’ll learn</strong>
-          <p>{post.excerpt} This guide focuses on practical decisions, trade-offs, and the checks that matter before you act.</p>
+          {post.keyTakeaways?.length ? (
+            <ul>{post.keyTakeaways.map((takeaway) => <li key={takeaway}>{takeaway}</li>)}</ul>
+          ) : (
+            <p>{post.excerpt} This guide focuses on practical decisions, trade-offs, and the checks that matter before you act.</p>
+          )}
         </div>
         <div className="article-body">
           {post.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
         </div>
+        {post.sources?.length ? (
+          <section className="article-sources" aria-labelledby="article-sources-heading">
+            <strong id="article-sources-heading">Sources & further reading</strong>
+            <ul>
+              {post.sources.map((source) => (
+                <li key={source.url}><a href={source.url} rel="noopener noreferrer">{source.label}</a></li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
         <aside className="editorial-note">
           <strong>TechPulse AI editorial note</strong>
           <p>We aim to publish practical, original analysis and clearly separate editorial judgment from commercial relationships. Product capabilities and pricing can change, so verify time-sensitive details with official sources before making purchasing or business decisions.</p>
