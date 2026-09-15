@@ -9,11 +9,17 @@ Measure actions that help improve reader usefulness and commercial performance w
 | --- | --- | --- |
 | `tool_open` | Understand tool discovery | tool, placement |
 | `tool_complete` | Measure whether a tool gets used to an answer | tool |
-| `newsletter_cta_click` | Measure newsletter intent | placement, campaign |
-| `affiliate_click` | Measure disclosed commerce intent | partner, placement, campaign, destination |
-| `sponsor_click` | Measure sponsored placement traffic | partner, placement, campaign |
-| `lead_cta_click` | Measure B2B/service intent | placement, campaign |
 | `article_commercial_click` | Measure article-to-commercial funnel | placement, destination |
+| `affiliate_click` | Measure disclosed affiliate intent | partner, placement, campaign, destination |
+| `sponsor_click` | Measure sponsored placement traffic | partner, placement, campaign |
+| `direct_ad_click` | Measure direct-paid advertising traffic | partner, placement, campaign |
+| `newsletter_cta_click` | Measure newsletter intent | placement, campaign |
+| `newsletter_signup` | Measure confirmed newsletter conversion after provider integration | campaign |
+| `lead_cta_click` | Measure B2B/service intent | placement, campaign |
+| `lead_submit` | Measure successful future lead-form submission without sending form contents | campaign |
+| `product_cta_click` | Measure TechPulse-owned digital product intent | placement, campaign, destination |
+
+Click events and successful conversion events are deliberately separate. A CTA click must never be counted as a newsletter signup, lead submission, sale, or other completed outcome.
 
 ## Funnel views
 
