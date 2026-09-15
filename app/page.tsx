@@ -31,19 +31,19 @@ export default function HomePage() {
       </section>
 
       <section className="container section feature-layout">
-        <article className="feature-story">
-          <div className="feature-art"><span>{lead.category}</span></div>
+        <article className="feature-story feature-story-compact">
           <div className="feature-copy">
-            <span className="badge">Featured</span>
+            <div className="feature-kicker"><span className="badge">Featured</span><span className="eyebrow">{lead.category}</span></div>
             <h2><Link href={`/articles/${lead.slug}`}>{lead.title}</Link></h2>
             <p>{lead.excerpt}</p>
-            <div className="meta">{lead.readingTime} · {new Date(lead.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</div>
+            <div className="meta">{lead.readingTime} · {new Date(lead.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone:"UTC" })}</div>
+            <Link className="feature-read-link" href={`/articles/${lead.slug}`}>Read featured article →</Link>
           </div>
         </article>
         <aside className="briefing-list">
           <div className="eyebrow">Editor’s briefing</div>
           <h2>Start with the fundamentals</h2>
-          {rest.map((post, index) => (
+          {rest.slice(0,5).map((post, index) => (
             <article className="briefing-item" key={post.slug}>
               <span>0{index + 1}</span>
               <div>
@@ -58,66 +58,20 @@ export default function HomePage() {
 
       <section className="container section">
         <div className="section-head">
-          <div>
-            <div className="eyebrow">Explore by topic</div>
-            <h2>Built around reader intent</h2>
-          </div>
+          <div><div className="eyebrow">Explore by topic</div><h2>Built around reader intent</h2></div>
           <p>Focused topic hubs make useful coverage easier to discover and easier for search engines to understand.</p>
         </div>
-        <div className="topic-grid">
-          {topicLinks.map(([label, href, description]) => (
-            <Link className="topic-card" href={href} key={label}>
-              <span className="topic-index">/ {label}</span>
-              <h3>{label}</h3>
-              <p>{description}</p>
-              <strong>Explore topic →</strong>
-            </Link>
-          ))}
-        </div>
+        <div className="topic-grid">{topicLinks.map(([label, href, description]) => (<Link className="topic-card" href={href} key={label}><span className="topic-index">/ {label}</span><h3>{label}</h3><p>{description}</p><strong>Explore topic →</strong></Link>))}</div>
       </section>
 
       <section className="container section">
-        <div className="section-head">
-          <div>
-            <div className="eyebrow">Latest</div>
-            <h2>Practical reads</h2>
-          </div>
-          <Link href="/search">Browse all →</Link>
-        </div>
-        <div className="grid">
-          {posts.map((post) => (
-            <article key={post.slug} className="card">
-              <span className="badge">{post.category}</span>
-              <h3><Link href={`/articles/${post.slug}`}>{post.title}</Link></h3>
-              <p>{post.excerpt}</p>
-              <div className="meta">{post.readingTime} · {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</div>
-            </article>
-          ))}
-        </div>
+        <div className="section-head"><div><div className="eyebrow">Latest</div><h2>Practical reads</h2></div><Link href="/search">Browse all →</Link></div>
+        <div className="grid">{posts.map((post) => (<article key={post.slug} className="card"><span className="badge">{post.category}</span><h3><Link href={`/articles/${post.slug}`}>{post.title}</Link></h3><p>{post.excerpt}</p><div className="meta">{post.readingTime} · {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone:"UTC" })}</div></article>))}</div>
       </section>
 
-      <section className="container section trust-strip">
-        <div>
-          <div className="eyebrow">Why readers should trust us</div>
-          <h2>Transparent by design.</h2>
-        </div>
-        <div className="trust-points">
-          <p><strong>Originality:</strong> we add testing, examples, context or analysis rather than republishing.</p>
-          <p><strong>Disclosure:</strong> affiliate relationships and sponsored content will be labeled clearly.</p>
-          <p><strong>Corrections:</strong> material errors are corrected rather than quietly ignored.</p>
-        </div>
-      </section>
+      <section className="container section trust-strip"><div><div className="eyebrow">Why readers should trust us</div><h2>Transparent by design.</h2></div><div className="trust-points"><p><strong>Originality:</strong> we add testing, examples, context or analysis rather than republishing.</p><p><strong>Disclosure:</strong> affiliate relationships and sponsored content will be labeled clearly.</p><p><strong>Corrections:</strong> material errors are corrected rather than quietly ignored.</p></div></section>
 
-      <section className="container section">
-        <div className="newsletter">
-          <div>
-            <div className="eyebrow">The TechPulse Brief</div>
-            <h2>The signal, not the noise.</h2>
-            <p>A weekly digest of useful AI releases, practical tools, tutorials and important technology developments. No daily inbox flood.</p>
-          </div>
-          <Link className="button" href="/contact">Join the launch list</Link>
-        </div>
-      </section>
+      <section className="container section"><div className="newsletter"><div><div className="eyebrow">The TechPulse Brief</div><h2>The signal, not the noise.</h2><p>A weekly digest of useful AI releases, practical tools, tutorials and important technology developments. No daily inbox flood.</p></div><Link className="button" href="/contact">Join the launch list</Link></div></section>
     </main>
   );
 }
