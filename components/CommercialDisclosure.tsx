@@ -1,0 +1,4 @@
+import Link from "next/link";
+
+type DisclosureProps={kind:"affiliate"|"sponsored"; compact?:boolean};
+export function CommercialDisclosure({kind,compact=false}:DisclosureProps){const affiliate=kind==="affiliate"; return <aside className={`commercial-disclosure${compact?" compact":""}`} aria-label={affiliate?"Affiliate disclosure":"Sponsored content disclosure"}><strong>{affiliate?"Affiliate disclosure":"Sponsored content"}</strong><p>{affiliate?"TechPulse AI may earn a commission when you buy through eligible links. This does not change our editorial criteria or what you pay.":"This content includes a paid commercial relationship. Sponsorship does not buy a favorable verdict or control our independent editorial conclusions."} {!compact&&<Link href="/editorial-standards">How we handle commercial relationships →</Link>}</p></aside>}
