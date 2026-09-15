@@ -3,9 +3,13 @@ export type ConversionEventName =
   | "tool_complete"
   | "article_commercial_click"
   | "affiliate_click"
+  | "sponsor_click"
+  | "direct_ad_click"
   | "newsletter_cta_click"
+  | "newsletter_signup"
   | "lead_cta_click"
-  | "sponsor_click";
+  | "lead_submit"
+  | "product_cta_click";
 
 export type ConversionEvent = {
   name: ConversionEventName;
@@ -22,9 +26,9 @@ declare global {
   }
 }
 
-export function trackConversion(event: ConversionEvent) {
+export function trackConversion({name,...details}: ConversionEvent) {
   if (typeof window === "undefined") return;
-  const payload = { event: event.name, ...event };
+  const payload = { event: name, ...details };
   window.dataLayer?.push(payload);
   window.dispatchEvent(new CustomEvent("techpulse:conversion", { detail: payload }));
 }
