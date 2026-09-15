@@ -33,8 +33,8 @@ const nav = [
   ["AI Tools", "/category/ai-tools"],
   ["AI Explained", "/category/ai-explained"],
   ["Guides", "/category/guides"],
+  ["Tools", "/tools"],
   ["Search", "/search"],
-  ["About", "/about"],
 ];
 
 const organizationJsonLd = {
@@ -85,6 +85,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Link href="/category/ai-tools">AI Tools</Link>
                 <Link href="/category/ai-explained">AI Explained</Link>
                 <Link href="/category/guides">Guides</Link>
+                <Link href="/tools">TechPulse Labs</Link>
                 <Link href="/search">Search</Link>
                 <a href="/feed.xml">RSS feed</a>
               </div>
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <Link href="/about">About</Link>
                 <Link href="/authors/techpulse-ai-editorial">Editorial team</Link>
                 <Link href="/editorial-standards">Editorial standards</Link>
+                <Link href="/advertise">Advertise & partner</Link>
                 <Link href="/contact">Contact</Link>
                 <Link href="/privacy">Privacy</Link>
                 <Link href="/terms">Terms</Link>
