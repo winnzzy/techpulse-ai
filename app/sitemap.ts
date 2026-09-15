@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/category/ai-explained`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/category/guides`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/tools`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${baseUrl}/tools/ai-subscription-roi`, changeFrequency: "monthly", priority: 0.85 },
     { url: `${baseUrl}/about`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/authors/techpulse-ai-editorial`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/editorial-standards`, changeFrequency: "monthly", priority: 0.6 },
